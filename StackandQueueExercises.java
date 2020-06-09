@@ -65,38 +65,38 @@ public class StackandQueueExercises {
 			s.push(n);
 		}
 		System.out.println("Original Stack: bottom " + s + " top ");
-		
 		stutter(s);
+		System.out.println("Stuttered Stack: bottom " + s + " top ");
 
 	}
 	
-	
-	/***************************************************************************
-	 * BJP5 Exercise 14.2: stutter
-	 * This program tests the method stutter that takes a stack of 
-	 * integers as a parameter and replaces every value in the stack 
-	 * with two occurrences of that value.
-	 * 
-	 * Example stack to pass: bottom [3, 7, 1, 14, 9] top
-	 * Post method, stack should be: bottom [3, 3, 7, 7, 1, 1, 14, 14, 9, 9] top
-	 * 
-	 * REQUIREMENTS
-	 * - preserve the original order. 
-	 * - Only single queue may be used as auxiliary storage to solve this problem.
-	 * "In the original list the 9 was at the top and would have been popped first. 
-	 * In the new stack the two 9s would be the first values popped from the stack." 
-	 **************************************************************************/
-	
+	/**
+	 * Duplicates each integer in the stack, maintaining the original order
+	 * Uses 1 Queue as auxiliary storage.
+	 * @param s The stack of integers to stutter
+	 */
 	public static void stutter(Stack<Integer> s) {
 		Queue<Integer> q = new LinkedList<>();
-		while(!s.isEmpty()) { // loop through stack - post: all values will be removed from original stack
-			int n = s.pop(); // first time through, n holds 9
-			q.add(n);
+		while(!s.isEmpty()) { // loop through stack - post: all values will be removed and added to q
+			int n = s.pop();
 			q.add(n);
 		}
-		// System.out.println(s.isEmpty());
-		// System.out.println(q);
 		
+		while(!q.isEmpty()) {
+			int n = q.remove();
+			s.push(n);
+		} // post: Stack is reversed
+		
+		while(!s.isEmpty()) {
+			int n = s.pop();
+			q.add(n);
+		} 
+		
+		while (!q.isEmpty()) {
+			int n = q.remove();
+			s.push(n);
+			s.push(n);
+		} // post: correct original order, but stuttered
 		
 	}
 
