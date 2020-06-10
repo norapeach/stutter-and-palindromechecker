@@ -23,7 +23,7 @@ import java.util.Stack;
  **************************************************************************/
 
 /***************************************************************************
- * BJP5 Exercise 14.8: isPalindrome
+ * START LINE 134 BJP5 Exercise 14.8: isPalindrome
  * This program also tests the method a method isPalindrome: 
  * "Take a queue of integers as a parameter and return true if the numbers in 
  * the queue represent a palindrome (and false otherwise). 
@@ -49,8 +49,8 @@ import java.util.Stack;
 
 /**
  * @author Nora P.
- * @version 06/09/20
- *
+ * @version 06/09/20 This program tests the isPalindrome(Queue<Integer>) and
+ *          stutter(Stack<Integer>) methods
  */
 public class StackandQueueExercises {
 
@@ -58,35 +58,39 @@ public class StackandQueueExercises {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Stack<Integer> s = new Stack<>(); // for stutter
-		Queue<Integer> testPal1 = new LinkedList<>();
+		Stack<Integer> s = new Stack<>(); // data structure for stutter method test
+
+		Queue<Integer> testPal1 = new LinkedList<>(); // isPalindrome data structure
 		Queue<Integer> testPal2 = new LinkedList<>();
+
 		int[] stutter1 = { 3, 7, 1, 14, 9 }; // test for stutter
-		int[] pal1 = {3, 8, 17, 9, 17, 8, 3}; // test for palindrome
-		int[] pal2 = {3, 8, 17, 9, 4, 17, 8, 3}; // !palindrome
+		int[] pal1 = { 3, 8, 17, 9, 17, 8, 3 }; // test for isPalindrome == true
+		int[] pal2 = { 3, 8, 17, 9, 4, 17, 8, 3 }; // NOT a palindrome
 
 		for (int n : stutter1) {
 			s.push(n);
 		}
-		
+
 		System.out.println("Stutter Test:");
-		System.out.println("Original Stack: bottom " + s + " top \n");
+		System.out.println("Original Stack: bottom " + s + " top");
 		stutter(s);
 		System.out.println("Stuttered Stack: bottom " + s + " top \n");
-		
+
 		for (int n : pal1) {
 			testPal1.add(n);
 		}
-		
+
 		for (int n : pal2) {
 			testPal2.add(n);
 		}
-		
+
 		System.out.println("isPalindrome Test:");
-		System.out.println("Original Queue 5: " + testPal1);
-		System.out.println("Palindrome? >> " + isPalindrome(testPal1) + " \n");
-		System.out.println("Original Queue 6: " + testPal2);
-		System.out.println("Palindrome? >> " + isPalindrome(testPal2) + " \n");
+		System.out.println("Original Queue: fron t" + testPal1 + " back");
+		System.out.println("Palindrome? >> " + isPalindrome(testPal1));
+		System.out.println("Post: test Queue: front " + testPal1 + " back \n");
+		System.out.println("2nd original Queue: front " + testPal2);
+		System.out.println("Palindrome? >> " + isPalindrome(testPal2));
+		System.out.println("Post: test Queue: front " + testPal1 + " back \n");
 
 	}
 
@@ -129,60 +133,35 @@ public class StackandQueueExercises {
 	 * @return boolean
 	 */
 	public static boolean isPalindrome(Queue<Integer> q) {
-		// I want to get the reverse and compare each int from the queue and stack
-		// two tracks?
-		// WHAT DO I KNOW FIRST: trying recursive solutation
+		Stack<Integer> s = new Stack<>(); // REQUIREMENT: 1 Stack as auxiliary storage
+		int origSize = q.size(); // store a reference to the original queue size
+		boolean isPalindrome = true; // default
 
-		int origSize = q.size(); // get the queue size
-		Stack<Integer> s = new Stack<>(); // REQUIREMENT: 1 stack as aux storage
+		// ADD Q elements to S for comparision back vs. front
+		for (int n : q) {
+			s.push(n);
+		} // post: stack contains same sequence of integers --> stack.pop() allows back
+			// values to be accessed
 
-		if (origSize < 2) {
-			return true; // base case
-		} else {
-			while (!q.isEmpty()) {
-				int n = q.remove(); // remove all values from queue
-				s.push(n); // add to stack
-			} //1. post: Temp Stack contains original sequence
-			System.out.println("tracing... " + "temp stack: " + " bottom " + s + " top");
-			System.out.println("tracing... " + "queue: front " + q +  " back\n");
-		
-			while (!s.isEmpty()) {
-				int n = s.pop();
-				q.add(n);
-			} // 2. post: queue contains reversed
-		
-			// compare?
-		} 
-		
-		
-		
-		
-		
-		
+		// System.out.println("1. tracing... " + "temp stack: " + s);
+		// System.out.println("1. tracing... " + "queue: " + q);
 
-		// REQUIREMENT: restore the queue
-		return false;
-	}
-	// REFERENCE googledoc: npRecursion basic examples --> search isPalindrome
-	/***************************************************************************
-	 * BJP5 Exercise 14.8: isPalindrome This program also tests the method a method
-	 * isPalindrome: "Take a queue of integers as a parameter and return true if the
-	 * numbers in the queue represent a palindrome (and false otherwise). A sequence
-	 * of numbers is considered a palindrome if it is the same in reverse order. For
-	 * example, suppose a queue called q stores these values: front [3, 8, 17, 9,
-	 * 17, 8, 3] back isPalindrome(q); should return true because this sequence is
-	 * the same in reverse order.
-	 * 
-	 * If the queue had instead stored these values: front [3, 8, 17, 9, 4, 17, 8,
-	 * 3] back The call on isPalindrome would instead return false because this
-	 * sequence is not the same in reverse order (the 9 and 4 in the middle don't
-	 * match).
-	 * 
-	 * REQUIREMENTS - The empty queue should be considered a palindrome. - You may
-	 * not make any assumptions about how many elements are in the queue and your
-	 * method must restore the queue so that it stores the same sequence of values
-	 * after the call as it did before. - You may use one stack as auxiliary
-	 * storage.
-	 **************************************************************************/
+		// COMPARISON: Loop iterates N times based on original Queue size
+		for (int i = 0; i < origSize; i++) {
+			int a = q.remove(); // front q element removed
+			int b = s.pop(); // top s element removed
+			q.add(a); // NOTE: queue element re-added to back of queue
+						// --> meets requirement: restore original Queue sequence
 
-}
+			if (a != b) {
+				// System.out.println("If not equal: tracing... " + "temp stack: " + s);
+				isPalindrome = false;
+
+			} // end if
+		} // end loop
+
+		return isPalindrome;
+
+	} // end isPalindrome
+
+} // end class
