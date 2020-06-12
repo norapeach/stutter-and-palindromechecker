@@ -4,7 +4,7 @@
 package assignment7;
 
 /***************************************************************************
- * START LINE 82: BJP5 Exercise 14.2: stutter
+ * METHOD START LINE 57: BJP5 Exercise 14.2: stutter
  * This program tests the method stutter that takes a stack of 
  * integers as a parameter and replaces every value in the stack 
  * with two occurrences of that value.
@@ -24,9 +24,9 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
+ * Tests the stutter(Stack<Integer> s) method
  * @author Nora P.
  * @version 6/11/20
- *
  */
 public class Stutter {
 
